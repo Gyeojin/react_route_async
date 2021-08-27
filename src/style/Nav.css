@@ -1,0 +1,4 @@
+header{width: 100%; height: auto; background: lightcoral; color: #fff;}
+header .center {display: flex; justify-content: space-between; align-items: center; padding: 10px 0;}
+header ul {display: flex;}
+header ul li {margin-left: 20px;}
