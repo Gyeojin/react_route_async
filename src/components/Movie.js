@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Loader from "../assets/loading.gif";
+import { Link } from "react-router-dom"; //Link를 쓰려면 import 해줘야 함
+
 import "../style/Movie.css";
 
 const Movie = () => {
@@ -7,6 +10,8 @@ const Movie = () => {
   }, []);
 
   const [items, setItems] = useState([]);
+  //loading에 true로 상태값 초기화 해놓고
+  const [loading, setLoading] = useState(true);
 
   const fetchItems = async () => {
     //일반적으로 fetch를 사용할 때는 두 단계를 거친다
@@ -20,22 +25,32 @@ const Movie = () => {
     const dataObj = await data.json(); //json데이터 그대로 가져와라(json 형태로 파싱하는 과정)
     //console.log(dataObj);
     const movies = dataObj.data.movies; //원하는 데이터만 빼오는 과정
-    // console.log(movies);
+    //console.log(movies);
 
     //받아온 결과를 반복문을 통해 태그 작성
     const movieCon = movies.map((movie) => (
       <div key={movie.id}>
-        <h2>{movie.title}</h2>
+        <h2>
+          <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+        </h2>
         <img src={movie.medium_cover_image} alt='' />
       </div>
     ));
 
     setItems(movieCon);
+    //로직 실행이 끝났을 때 상태값을 false로 바꿔준다
+    setLoading(false);
   };
 
   return (
     <div className='section movie'>
-      <div className='center'>{items}</div>
+      {loading ? (
+        <div className='Loader'>
+          <img src={Loader} className='Loading_img' alt='' />
+        </div>
+      ) : (
+        <div className='center'>{items}</div>
+      )}
     </div>
   );
 };
